@@ -25,6 +25,10 @@ jobs:
         
       - name: Run SQL analytics
         run: python src/run_sql_analytics.py
+        
+      - name: Run automated data quality tests
+        run: python -m pytest tests/ -v
+
 
 
       - name: Upload processed data
