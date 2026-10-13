@@ -22,6 +22,10 @@ jobs:
 
       - name: Run banking ETL pipeline
         run: python src/etl_pipeline.py
+        
+      - name: Run SQL analytics
+        run: python src/run_sql_analytics.py
+
 
       - name: Upload processed data
         uses: actions/upload-artifact@v4
