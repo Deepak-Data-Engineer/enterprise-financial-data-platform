@@ -30,6 +30,7 @@ It demonstrates practical data engineering concepts, including reproducible ETL 
 | Data Formats | CSV |
 
 ## Architecture
+**[View Interactive Architecture Diagram](docs/architecture.md)**
 
 ```text
 Sample Banking Transactions (CSV)
