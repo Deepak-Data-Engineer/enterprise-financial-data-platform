@@ -1,0 +1,30 @@
+
+name: Run Financial ETL Pipeline
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-etl:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download repository files
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install required packages
+        run: pip install -r requirements.txt
+
+      - name: Run banking ETL pipeline
+        run: python src/etl_pipeline.py
+
+      - name: Upload processed data
+        uses: actions/upload-artifact@v4
+        with:
+          name: banking-etl-results
+          path: data/processed/
