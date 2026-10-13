@@ -1,146 +1,261 @@
-
 # Enterprise Financial Data Platform
 
 ### End-to-End Banking Data Engineering & Analytics Project
 
-An independently developed, banking-inspired data engineering project demonstrating financial data ingestion, ETL processing, data quality validation, SQL analytics, and automated pipeline execution.
+An independently developed, banking-inspired data engineering project demonstrating financial data ingestion, ETL processing, data quality validation, SQL analytics, automated testing, and pipeline execution using GitHub Actions.
 
-> **Note:** This is a portfolio demonstration using sample data. It is not an official First United Bank system and contains no confidential banking information.
+> **Disclaimer:** This is an independent portfolio project built using sample financial data. It is not an official First United Bank system and does not contain confidential banking information or proprietary employer code.
+
+---
 
 ## Project Overview
 
-This project simulates a financial data processing workflow in which transaction records are ingested, validated, transformed, and analyzed to produce reporting-ready datasets.
+The Enterprise Financial Data Platform simulates an end-to-end financial data processing workflow.
 
-The goal is to demonstrate practical data engineering fundamentals using a reproducible pipeline.
+The platform ingests sample banking transactions, applies data validation and transformation rules, separates valid and rejected records, and generates reporting-ready datasets for financial analytics.
+
+It demonstrates practical data engineering concepts, including reproducible ETL pipelines, SQL-based reporting, automated data quality testing, and CI workflow execution.
 
 ## Technology Stack
 
-- **Python** — ETL processing and automation
-- **Pandas** — Data transformations and CSV processing
-- **SQL** — Financial analytics and reporting
-- **SQLite** — Lightweight analytical database
-- **GitHub Actions** — Automated pipeline execution
-- **Git and GitHub** — Version control and CI workflow management
+| Category | Technologies |
+|---|---|
+| Programming | Python |
+| Data Processing | Pandas |
+| Analytics | SQL |
+| Database | SQLite |
+| Data Quality | Python Validation, pytest |
+| Automation | GitHub Actions |
+| Version Control | Git, GitHub |
+| Data Formats | CSV |
 
 ## Architecture
 
 ```text
 Sample Banking Transactions (CSV)
-              |
-              v
-       Python ETL Pipeline
-              |
-              v
-    Data Quality Validation
-              |
-       +------+------+
-       |             |
-       v             v
-Clean Transactions   Rejected Records
-       |
-       v
-   SQLite Database
-       |
-       v
-   SQL Analytics
-       |
-       v
-  Five CSV Reports
+                 |
+                 v
+         Python ETL Pipeline
+                 |
+                 v
+       Data Quality Validation
+                 |
+          +------+------+
+          |             |
+          v             v
+   Clean Transactions   Rejected Records
+          |
+          +-------------------+
+          |                   |
+          v                   v
+   Customer Summaries    SQLite Database
+                              |
+                              v
+                         SQL Analytics
+                              |
+                              v
+                      Five CSV Reports
+
+GitHub Actions Workflow
+    |
+    +-- Run Python ETL
+    +-- Run SQL Analytics
+    +-- Run pytest Data Quality Tests
+    +-- Upload Generated Artifacts
 ```
 
 ## Key Features
 
 ### 1. Financial Data Ingestion
-Reads sample transaction data from CSV files.
 
-### 2. ETL Processing
-Processes financial transaction records using Python and Pandas.
+- Reads sample banking transaction records from CSV files.
+- Provides a reproducible input dataset for ETL processing.
+- Supports local execution and GitHub Actions workflows.
+
+### 2. Python ETL Processing
+
+- Processes transaction records using Python and Pandas.
+- Applies validation and transformation logic.
+- Produces cleaned transaction datasets.
+- Separates rejected transactions for inspection.
 
 ### 3. Data Quality Validation
-Separates accepted transactions from records that fail validation.
+
+- Checks transaction records against validation rules.
+- Separates accepted and rejected records.
+- Supports reliable downstream financial reporting.
 
 ### 4. Customer-Level Reporting
-Produces customer transaction summaries.
+
+- Generates customer transaction summaries.
+- Produces structured outputs for further analysis.
 
 ### 5. SQL Analytics
-Includes five analytical queries covering:
 
-- Completed transaction summaries by customer
-- Transaction volume by type
-- Daily transaction trends
-- Transaction status monitoring
-- Customer transaction ranking
+Uses SQLite and SQL to generate five analytical reports:
 
-### 6. GitHub Actions Automation
-Runs the Python ETL and SQL analytics scripts through a manually triggered GitHub Actions workflow.
+1. Completed transaction summaries by customer
+2. Transaction volume by type
+3. Daily transaction trends
+4. Transaction status monitoring
+5. Customer transaction ranking
+
+### 6. Automated Data Quality Testing
+
+Uses **pytest** to verify processed transaction data.
+
+The four automated tests confirm:
+
+- The cleaned transactions file exists.
+- The cleaned transactions dataset is not empty.
+- Transaction IDs are unique.
+- Transaction amounts are positive.
+
+**Verified Test Results: 4 passed, 0 failed.**
+
+These tests execute within the GitHub Actions workflow.
+
+### 7. GitHub Actions Automation
+
+The workflow supports manually triggered execution and performs the following steps:
+
+1. Downloads repository files.
+2. Configures the Python environment.
+3. Installs project dependencies.
+4. Runs the Python ETL pipeline.
+5. Executes SQL analytics.
+6. Runs automated data quality tests.
+7. Uploads generated outputs as downloadable artifacts.
 
 ## Project Structure
 
 ```text
 enterprise-financial-data-platform/
 |
-|-- .github/workflows/run-etl.yml
+|-- .github/
+|   |-- workflows/
+|       |-- run-etl.yml
+|
 |-- data/
 |   |-- transactions.csv
+|   |-- processed/              # Generated during execution
+|
 |-- sql/
 |   |-- financial_analytics.sql
+|
 |-- src/
 |   |-- etl_pipeline.py
 |   |-- run_sql_analytics.py
+|
+|-- tests/
+|   |-- test_data_quality.py
+|
 |-- requirements.txt
 |-- README.md
 ```
 
-Generated files are saved under `data/processed/` during execution.
-
 ## How to Run
 
-### Run locally
+### Option 1: Run Locally
 
-1. Clone this repository.
-2. Install dependencies:
+**Step 1 — Clone the repository**
 
 ```bash
-pip install -r requirements.txt
+git clone https://github.com/Deepak-Data-Engineer/enterprise-financial-data-platform.git
+cd enterprise-financial-data-platform
 ```
 
-3. Run the ETL pipeline:
+**Step 2 — Install dependencies**
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+**Step 3 — Run the ETL pipeline**
 
 ```bash
 python src/etl_pipeline.py
 ```
 
-4. Run SQL analytics:
+**Step 4 — Run SQL analytics**
 
 ```bash
 python src/run_sql_analytics.py
 ```
 
-### Run using GitHub Actions
+**Step 5 — Execute automated tests**
 
-1. Open the **Actions** tab.
+```bash
+python -m pytest tests/ -v
+```
+
+### Option 2: Run with GitHub Actions
+
+1. Open the repository's **Actions** tab.
 2. Select **Run Financial ETL Pipeline**.
 3. Click **Run workflow**.
-4. Wait for the workflow to complete.
-5. Download the `banking-etl-results` artifact.
+4. Select the `main` branch.
+5. Start the workflow and wait for completion.
+6. Open the completed workflow run.
+7. Download the `banking-etl-results` artifact.
 
 ## Generated Outputs
 
 The pipeline produces:
 
-- `clean_transactions.csv`
-- `rejected_transactions.csv`
-- `customer_summary.csv`
-- Five SQL analytics reports under `sql_reports/`
+| Output | Description |
+|---|---|
+| `clean_transactions.csv` | Transactions that passed validation |
+| `rejected_transactions.csv` | Transactions that failed validation |
+| `customer_summary.csv` | Customer-level transaction summaries |
+| `sql_reports/` | Five SQL analytics reports |
+
+Generated files are saved under `data/processed/` during execution and are available through GitHub Actions artifacts.
+
+## Workflow Validation
+
+The GitHub Actions workflow has been successfully executed.
+
+**Verified execution:**
+
+- Workflow: Run Financial ETL Pipeline #3
+- Status: Success
+- ETL execution: Successful
+- SQL analytics: Successful
+- Automated tests: 4 passed
+- Output artifacts: Generated successfully
+
+The automated test suite verifies the existence, completeness, uniqueness, and positive transaction amounts of the cleaned dataset.
 
 ## Skills Demonstrated
 
-Python ETL | Pandas | SQL | SQLite | Data Validation | Financial Data Processing | Workflow Automation | GitHub Actions
+- End-to-end ETL pipeline development
+- Python and Pandas data processing
+- SQL analytics and financial reporting
+- SQLite database operations
+- Data quality validation
+- Automated testing using pytest
+- GitHub Actions workflow automation
+- Version control and project documentation
+- Reproducible data engineering workflows
 
 ## Future Enhancements
 
-Potential extensions include cloud storage integration, orchestration, automated testing, and scalable processing with Apache Spark.
+Potential future improvements include:
+
+- Cloud storage integration using Azure or AWS
+- Workflow orchestration using Apache Airflow
+- Scalable data processing with Apache Spark
+- Additional automated data quality rules
+- Enhanced monitoring and logging
+- Larger synthetic financial datasets
 
 ---
 
-**Project Type:** Independent portfolio project using sample financial data.
+**Project Type:** Independent data engineering portfolio project
+
+**Domain:** Banking and Financial Services
+
+**Data:** Sample financial transaction records
+
+**Purpose:** Demonstrate practical data engineering, analytics, and automated testing capabilities.
